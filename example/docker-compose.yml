@@ -1,0 +1,53 @@
+version: "3.8"
+
+services:
+  # MariaDB Server
+  mariadb:
+    image: mariadb:latest
+    container_name: DB_ROLLBACK_mariadb_db
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: "GreatSecret@#7830"
+    ports:
+      - "3306:3306"
+    volumes:
+      - mariadb_data:/var/lib/mysql
+
+  # PostgreSQL Server
+  postgres:
+    image: postgres:latest
+    container_name: DB_ROLLBACK_postgres_db
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: "GreatSecret@#7830"
+    ports:
+      - "5460:5432"
+      - "5433:5433"
+    volumes:
+      - postgres_data:/var/lib/postgresql
+
+  # Microsoft SQL Server (Developer Edition)
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: DB_ROLLBACK_mssql_db
+    restart: always
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "GreatSecret@#7830"
+    ports:
+      - "1433:1433"
+    volumes:
+      - mssql_data:/var/opt/mssql
+
+  # The DBMS (Adminer) - One tool to rule them all
+  adminer:
+    image: adminer:latest
+    container_name: adminer_DB_gui
+    restart: always
+    ports:
+      - "8080:8080"
+
+volumes:
+  mariadb_data:
+  postgres_data:
+  mssql_data:
